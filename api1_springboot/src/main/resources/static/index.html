@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PASETO Demo</title>
+</head>
+<body>
+<h2>Register</h2>
+<form id="registerForm">
+  <input type="email" id="regEmail" placeholder="Email" required>
+  <button type="submit">Register</button>
+</form>
+
+<h2>Verify OTP</h2>
+<form id="verifyForm">
+  <input type="email" id="verifyEmail" placeholder="Email" required>
+  <input type="text" id="verifyOtp" placeholder="6-digit OTP" required>
+  <button type="submit">Verify</button>
+</form>
+
+<h2>Login</h2>
+<form id="loginForm">
+  <input type="email" id="loginEmail" placeholder="Email" required>
+  <input type="password" id="loginPassword" placeholder="Password" required>
+  <button type="submit">Login</button>
+</form>
+
+<button id="pingBtn">Ping Protected API</button>
+
+<pre id="output"></pre>
+
+<script>
+async function post(url, data) {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  });
+  return res.text();
+}
+
+document.getElementById('registerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('regEmail').value;
+  const out = await post('/api/register', {email});
+  document.getElementById('output').textContent = out;
+});
+
+document.getElementById('verifyForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('verifyEmail').value;
+  const otp = document.getElementById('verifyOtp').value;
+  const out = await post('/api/verify', {email, otp});
+  document.getElementById('output').textContent = out;
+});
+
+document.getElementById('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const out = await post('/api/login', {email, password});
+  document.getElementById('output').textContent = out;
+});
+
+document.getElementById('pingBtn').addEventListener('click', async () => {
+  const res = await fetch('/api/ping');
+  const out = await res.text();
+  document.getElementById('output').textContent = out;
+});
+</script>
+</body>
+</html>
