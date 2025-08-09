@@ -1,0 +1,6 @@
+fedavg:
+  q: 0
+faircare:
+  q: 0.5
+  beta: 0.9
+  lambdaA: 0.5

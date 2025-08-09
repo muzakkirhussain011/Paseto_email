@@ -1,0 +1,21 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          pip install .
+      - name: Unit tests
+        run: pytest -q
+      - name: Smoke run
+        run: |
+          python -m faircare.experiments.run_experiments --dataset heart --algo faircare --num_clients 2 --rounds 1 --local_epochs 1 --batch_size 16 --lr 1e-3 --dirichlet_alpha 0.5 --sensitive_attr sex --outdir runs/ci/
+          python -m faircare.paper.make_figures --indir runs/ci/ --outdir paper/figs/
+          python -m faircare.paper.tables --indir runs/ci/ --outdir paper/tables/
