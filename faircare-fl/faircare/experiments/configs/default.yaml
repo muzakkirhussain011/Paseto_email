@@ -1,0 +1,4 @@
+lr: 0.001
+batch_size: 32
+rounds: 2
+local_epochs: 1

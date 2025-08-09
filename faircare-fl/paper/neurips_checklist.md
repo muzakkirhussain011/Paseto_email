@@ -1,0 +1,3 @@
+- [x] All code and data are released.
+- [x] Experiments are reproducible with provided seeds.
+- [x] Ethical considerations are discussed.
